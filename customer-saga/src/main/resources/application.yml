@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: customer-saga
+
+  cloud:
+    function:
+      web:
+        path: /customers
+      definition: generate;reserveAmount
+    stream:
+      bindings:
+        generate-out-0:
+          destination:  mytopic3
+        reserveAmount-in-0:
+          destination:  mytopic3
+          client: client1
+          group: group1         # use to keep CURRENT-OFFSET
+
+
+#spring.cloud.stream.bindings.customer-saga.orderEventSupplier-out-0.destination: reserve-events
+#spring.kafka.bootstrap-servers: localhost:9092
+#spring.cloud.function.definition: generate;reserveAmount
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+  jpa:
+    database-platform: H2
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+
+#logging.level.org.springframework.kafka: DEBUG
+#logging.level.org.apache.kafka: DEBUG
